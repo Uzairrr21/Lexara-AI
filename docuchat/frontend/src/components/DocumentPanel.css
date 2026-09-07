@@ -1,0 +1,184 @@
+.doc-panel {
+  width: 320px;
+  min-width: 320px;
+  height: 100vh;
+  background: var(--bg-sidebar);
+  border-left: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.doc-panel-header {
+  padding: 16px 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.doc-panel-header h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.doc-panel-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: -1px;
+}
+.doc-tab {
+  padding: 8px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.doc-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.doc-error {
+  margin: 10px 12px 0;
+  padding: 8px 12px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 6px;
+  font-size: 12px;
+  color: #fca5a5;
+}
+
+.attached-docs {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(16,163,127,0.05);
+}
+.attached-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.attached-doc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.04);
+  margin-bottom: 3px;
+}
+.doc-type-icon { font-size: 12px; flex-shrink: 0; }
+.doc-name {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.doc-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 11px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.doc-remove:hover { color: var(--red); background: rgba(239,68,68,0.1); }
+
+.doc-panel-content { flex: 1; overflow-y: auto; padding: 12px; }
+
+/* Upload */
+.upload-area { padding: 8px 0; }
+.upload-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 32px 20px;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+.upload-dropzone:hover { border-color: var(--accent); background: var(--accent-light); }
+.upload-dropzone strong { color: var(--text-primary); font-size: 14px; }
+.upload-dropzone span { font-size: 12px; color: var(--text-muted); }
+
+/* Search */
+.search-area { display: flex; flex-direction: column; gap: 10px; }
+.search-bar { display: flex; gap: 8px; }
+.search-bar .input { flex: 1; padding: 9px 12px; font-size: 13px; }
+
+.search-empty {
+  padding: 32px 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.search-results { display: flex; flex-direction: column; gap: 8px; }
+.search-result {
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color 0.2s;
+}
+.search-result:hover { border-color: var(--border-strong); }
+
+.result-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+.result-meta span {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.result-meta span + span::before { content: '·'; margin-right: 4px; }
+.result-tag {
+  font-size: 10px !important;
+  background: rgba(16,163,127,0.1);
+  color: var(--accent) !important;
+  padding: 1px 6px;
+  border-radius: 9999px;
+}
+.result-tag::before { content: none !important; }
+.result-abstract {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.result-attach {
+  width: 100%;
+  justify-content: center;
+  font-size: 12px;
+  padding: 6px;
+}

@@ -1,0 +1,8 @@
+node_modules/
+.env
+backend/uploads/
+frontend/build/
+frontend/public/models/*.json
+frontend/public/models/shard*
+*.log
+.DS_Store
