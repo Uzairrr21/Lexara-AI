@@ -39,9 +39,14 @@ JWT_SECRET=replace-with-a-long-random-secret
 GROQ_API_KEY=your-groq-api-key
 GROQ_MODEL=openai/gpt-oss-20b
 FRONTEND_URL=http://localhost:3000
+LANGFUSE_PUBLIC_KEY=your-langfuse-public-key
+LANGFUSE_SECRET_KEY=your-langfuse-secret-key
+LANGFUSE_BASE_URL=https://cloud.langfuse.com
 ```
 
 `MONGODB_URI`, `JWT_SECRET`, and `GROQ_API_KEY` should be set for a complete installation. The server uses MongoDB on the default local URI and port 5000 when those values are omitted, but authentication and chat persistence require a working database and JWT secret.
+
+Langfuse tracing is optional. When `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are configured, each chat request records the user input and response, model name, token usage, latency, prompt association, environment, tags, provider metadata, and errors. Traces are grouped by chat session and flushed after each request. Leave the Langfuse variables unset to run without tracing.
 
 ### 2. Install and start the frontend
 
@@ -100,6 +105,10 @@ npm run build   # Create a production build in frontend/build
 6. The system prompt instructs the model to answer only from the supplied excerpts and identify the source. If no relevant context is found, the assistant declines to answer from outside the attached documents.
 
 Embeddings are generated locally through `@xenova/transformers`; only the grounded chat completion is sent to Groq.
+
+### Langfuse Observability
+
+The backend integrates Langfuse through `backend/services/langfuseService.js`. Chat traces use the `docuchat-chat` trace name and include `docuchat`, `rag`, and `groq` tags. Groq generations record the configured model, request parameters, prompt name `docuchat-rag-prompt` with version `1`, response output, and token usage returned by the provider. Failed generations are marked with an error status and message.
 
 ## API Overview
 

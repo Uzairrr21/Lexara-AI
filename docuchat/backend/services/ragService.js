@@ -46,7 +46,16 @@ async function generateWithGroq(systemPrompt, messages) {
   const text = response.data?.choices?.[0]?.message?.content?.trim();
 
   if (!text) throw new Error('Groq returned an empty response.');
-  return text;
+  return {
+    text,
+    usageDetails: response.data?.usage
+      ? {
+          input: response.data.usage.prompt_tokens,
+          output: response.data.usage.completion_tokens,
+          total: response.data.usage.total_tokens
+        }
+      : undefined
+  };
 }
 
 // Vectors are normalized by the embedding model, but keep this safe for old data.
@@ -174,7 +183,7 @@ class RAGService {
 
 STRICT RULES:
 1. Only use information from the provided context to answer.
-2. If the answer is not in the context, say: "This information is not available in the attached documents."
+2. If  the answer is not in the context, say: "This information is not available in the attached documents."
 3. Do NOT answer general knowledge questions, current events, or anything unrelated to the documents.
 4. Cite which source/document your answer comes from.
 5. Be concise but thorough.
@@ -197,8 +206,11 @@ ${context}`;
       { role: 'user', content: userMessage }
     ];
 
+    const generated = await generateWithGroq(systemPrompt, messages);
+
     return {
-      content: await generateWithGroq(systemPrompt, messages),
+      content: generated.text,
+      usageDetails: generated.usageDetails,
       usedChunks: relevantChunks.map(c => ({ source: c.source, score: c.score }))
     };
   }

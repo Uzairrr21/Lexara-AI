@@ -9,6 +9,7 @@ const { v4: uuidv4 } = require('uuid');
 const authMiddleware = require('../middleware/auth');
 const Chat = require('../models/Chat');
 const ragService = require('../services/ragService');
+const { traceChat } = require('../services/langfuseService');
 const { extractText } = require('../services/extractService');
 
 const uploadDir = path.join(__dirname, '../uploads');
@@ -223,12 +224,15 @@ router.post('/:id/message', authMiddleware, async (req, res) => {
 
     // Get RAG response
     const history = chat.messages.slice(-10).map(m => ({ role: m.role, content: m.content }));
-    const ragResult = await ragService.chat(
-      chat._id.toString(),
-      content.trim(),
-      chat.documents,
-      history.slice(0, -1),
-      chat.vectorChunks
+    const ragResult = await traceChat(
+      { chatId: chat._id.toString(), userMessage: content.trim() },
+      () => ragService.chat(
+        chat._id.toString(),
+        content.trim(),
+        chat.documents,
+        history.slice(0, -1),
+        chat.vectorChunks
+      )
     );
 
     // Add assistant message
